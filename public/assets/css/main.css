@@ -1,0 +1,22 @@
+@import "./style.css";
+@import "./responsive.css";
+@import "swiper/css/virtual";
+@import "swiper/css";
+@import "rc-slider/assets/index.css";
+@import "./custom.css";
+@import "./Team.scss";
+@import "./Breadcrumbs.scss";
+@import "./CreateTeam.scss";
+@import "./LoginPage.scss";
+@import "./Timeline.scss";
+@import "./Announcements.scss";
+@import "./ProblemStatement.scss";
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+html,
+body {
+    font-family: "Inter", sans-serif;
+}

@@ -1,0 +1,197 @@
+/* src/pages/ProblemStatements.scss */
+$ps-teal: #01a79d;
+$ps-gold: #d4b365;
+$ps-ink: #0b0f14c5;
+$ps-sub: #5a6773;
+$ps-line: #e9eef0;
+$ps-soft: #f7faf9;
+$ps-radius: 14px;
+
+.ps-page {
+  background: #ffffff;
+  min-height: 100vh;
+  color: $ps-ink;
+}
+
+.ps-header {
+  max-width: 1100px;
+  margin: 24px auto 8px;
+  padding: 0 16px;
+}
+.ps-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin: 0 0 6px;
+  color: $ps-teal;
+}
+.ps-sub {
+  margin: 0;
+  color: $ps-sub;
+}
+
+.ps-grid {
+  max-width: 1100px;
+  margin: 16px auto 60px;
+  padding: 0 16px;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr;
+  margin-top: 4rem;
+
+  @media (min-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ps-card {
+  background: #fff;
+  border: 1px solid $ps-line;
+  border-radius: $ps-radius;
+  padding: 16px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+  transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: rgba($ps-teal, .35);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.08);
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  &__title {
+    margin: 6px 0 4px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: $ps-ink;
+  }
+
+  &__by {
+    margin: 0 0 8px;
+    color: $ps-sub;
+    font-size: 0.95rem;
+  }
+
+  &__desc {
+    margin: 0 0 12px;
+    color: $ps-ink;
+    font-size: 0.838rem;
+    line-height: 18px;
+  }
+
+  &__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+}
+
+.ps-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.ps-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.8rem;
+
+  &--outline {
+    border: 1.5px solid $ps-teal;
+    color: $ps-teal;
+    background: #fff;
+  }
+
+  &.medium {
+    background: rgba($ps-gold, .12);
+    color: darken($ps-gold, 10%);
+    border: 1.5px solid rgba($ps-gold, .35);
+  }
+
+  &.hard {
+    background: rgba($ps-teal, .12);
+    color: $ps-teal;
+    border: 1.5px solid rgba($ps-teal, .35);
+  }
+}
+
+.ps-like {
+  border: 1px solid $ps-line;
+  background: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  color: $ps-sub;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+
+  &:hover { background: $ps-soft; }
+  &.is-active { color: $ps-teal; border-color: rgba($ps-teal, .45); }
+}
+
+.ps-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.ps-tag {
+  background: $ps-soft;
+  border: 1px solid $ps-line;
+  color: $ps-ink;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.ps-divider {
+  border: none;
+  border-top: 1px solid $ps-line;
+  margin: 10px 0 12px;
+}
+
+.ps-reward {
+  display: grid;
+  gap: 2px;
+  .ps-reward__label {
+    font-size: 0.78rem;
+    color: $ps-sub;
+  }
+  .ps-reward__value {
+    color: $ps-teal;
+    font-weight: 500;
+    font-size: 14px;
+  }
+}
+
+.ps-btn {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+  border: 2px solid $ps-teal;
+  background: #fff;
+  color: $ps-teal;
+  font-weight: 800;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, transform .06s ease;
+
+  &:hover { background: rgba($ps-teal, .06); }
+  &:active { transform: translateY(1px); }
+}
+.ps-ext { margin-left: 6px; }

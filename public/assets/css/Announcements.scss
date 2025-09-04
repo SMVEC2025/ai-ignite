@@ -1,0 +1,301 @@
+/* Light theme for Announcements (white + #01a79d + #d4b365) */
+$brand: #01a79d; // primary
+$accent: #d4b365; // secondary
+$text: #111827; // gray-900
+$muted: #6b7280; // gray-500
+$bg: #f9fafb; // page bg
+$card: #ffffff; // card bg
+$border: #e5e7eb; // gray-200
+$danger: #e11d48; // rose-600
+
+.c_announce-wrap {
+    min-height: 100dvh;
+    background: linear-gradient(180deg, #fff, $bg 50%);
+    display: grid;
+    place-items: start center;
+    padding: 32px 16px;
+    color: $text;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
+}
+
+.c_announce-card {
+    width: 100%;
+    max-width: 1200px;
+    background: $card;
+}
+
+
+.c_announce-badge {
+    font-size: 12px;
+    color: $text;
+    background: rgba($accent, .15);
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba($accent, .5);
+}
+
+.c_announce-section {
+    margin: 14px 0;
+}
+
+.c_announce-title {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: $text;
+}
+
+.c_announce-dim {
+    color: $muted;
+    font-size: 13px;
+}
+
+/* Form */
+.c_announce-form {
+    display: grid;
+    gap: 10px;
+}
+
+.c_announce-input {
+    width: 100%;
+    background: #fff;
+    border: 1px solid $border;
+    color: $text;
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+
+    &:focus {
+        border-color: $brand;
+        box-shadow: 0 0 0 3px rgba($brand, .18);
+    }
+
+    &::placeholder {
+        color: rgba($text, .45);
+    }
+}
+
+.c_announce-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: $text;
+
+    input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+        accent-color: $brand;
+    }
+}
+
+/* Buttons */
+.c_announce-actions,
+.c_announce-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 6px;
+}
+
+.c_announce-btn {
+    appearance: none;
+    border: none;
+    background: $brand;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform .04s ease, background-color .15s ease, box-shadow .15s ease;
+
+    &:hover {
+        background: darken($brand, 6%);
+        box-shadow: 0 6px 18px rgba($brand, .25);
+    }
+
+    &:active {
+        transform: translateY(1px);
+    }
+
+    &:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+    }
+}
+
+.c_announce-btn--ghost {
+    background: transparent;
+    border: 1px solid $brand;
+    color: $brand;
+
+    &:hover {
+        background: rgba($brand, .06);
+        box-shadow: 0 4px 12px rgba($brand, .18);
+    }
+}
+
+.c_announce-btn--danger {
+    background: $danger;
+
+    &:hover {
+        background: darken($danger, 5%);
+    }
+}
+
+/* Alert */
+.c_announce-alert {
+    background: #fff1f2; // rose-50
+    border: 1px solid rgba($danger, .35);
+    color: #9f1239; // rose-800
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin: 8px 0;
+}
+
+/* List / Items */
+.c_announce-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 12px;
+}
+
+.c_announce-item {
+    border: 1px solid $border;
+    border-radius: 12px;
+    padding: 13px 20px;
+    background: #fff;
+
+    &.is-unpub {
+        background: #fafafa;
+
+        .c_announce-item__title {
+            opacity: .9;
+        }
+    }
+}
+
+.c_announce-item__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+}
+
+.c_announce-item__title {
+    margin: 0;
+    font-size: 18px;
+    color: $brand;
+    font-weight: 600;
+}
+
+.c_announce-item__time {
+    font-size: 12px;
+    color: $muted;
+}
+
+.c_announce-item__body {
+    margin: 8px 0;
+    white-space: pre-wrap;
+    color: #374151; // gray-700
+}
+
+.c_announce-item__meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    position: relative;
+
+    &::before {
+        content: '';
+        color: $muted;
+        background-color: rgba(128, 128, 128, 0.288);
+        margin-right: 4px;
+        position: absolute;
+        top: -10px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+    }
+}
+
+/* Pills */
+.c_announce-pill {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid $border;
+    background: #fff;
+    color: $text;
+
+    &.ok {
+        background: rgba($brand, .10);
+        border-color: rgba($brand, .45);
+        color: darken($brand, 10%);
+    }
+
+    &.off {
+        background: rgba($accent, .12);
+        border-color: rgba($accent, .45);
+        color: #7a5a16; // warm text matching accent
+    }
+}
+
+/* Small badge-style link (if you use any) */
+.c_announce-badgelink {
+    color: $brand;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.c_announce-item__titlewrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.c_announce-icon {
+    display: inline-flex;
+    align-items: center;
+    color: #01a79d;
+}
+
+.c_announce-meta-line {
+    display: flex;
+    gap: 10px;
+    margin: 6px 0 2px;
+    flex-wrap: wrap;
+}
+
+.c_announce-meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    background: #fff;
+}
+
+
+/* Responsiveness */
+@media (max-width: 720px) {
+    .c_announce-card {
+        padding: 16px;
+    }
+
+    .c_announce-item__head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}

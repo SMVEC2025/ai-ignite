@@ -1,0 +1,218 @@
+// Theme (tweak to your brand)
+$c_team-primary: #01a79d !default;
+$c_team-primary-600: #01a79d !default;
+$c_team-bg: #0f1115 !default;            // page background (dark)
+$c_team-card: #fafafa !default;          // card background
+$c_team-text: #3a3a3a !default;          // main text
+$c_team-dim: #575758 !default;           // subtle text
+$c_team-border: #262a36 !default;        // borders
+$c_team-success: #22c55e !default;
+$c_team-danger: #ef4444 !default;
+
+// Layout
+.c_team-wrap {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.486);
+  padding: 32px 16px;
+  color: $c_team-text;
+}
+
+.c_team-card {
+  width: 100%;
+  max-width: 920px;
+  background: $c_team-card;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.c_team-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    font-size: 22px;
+    letter-spacing: 0.4px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+    color: $c_team-primary;
+  }
+}
+
+.c_team-user {
+  font-size: 13px;
+  color: white;
+  background-color: #0c9188;
+  backdrop-filter: blur(4px);
+  padding: 7px 12px;
+  border-radius: 999px;
+}
+
+// Stepper
+.c_team-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin: 8px 0 16px;
+}
+.c_team-step {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px dashed $c_team-border;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  &.is-active {
+    border-style: solid;
+    border-color: $c_team-primary;
+    background: rgba($c_team-primary, 0.08);
+  }
+  &.is-done {
+    border-color: rgba($c_team-success, 0.6);
+    .c_team-step__dot {
+      background: $c_team-success;
+      border-color: transparent;
+      color: #0b0d11;
+    }
+  }
+}
+.c_team-step__dot {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid $c_team-border;
+  font-weight: 600;
+  font-size: 14px;
+  color: $c_team-text;
+}
+.c_team-step__label {
+  font-size: 13px;
+  color: $c_team-dim;
+}
+
+// Sections
+.c_team-section { margin: 12px 0 6px; }
+.c_team-title { margin: 0 0 10px; font-size: 16px; }
+
+// Grid
+.c_team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px;
+}
+@media (max-width: 720px) {
+  .c_team-grid { grid-template-columns: 1fr; }
+}
+
+// Field
+.c_team-field { display: grid; gap: 6px; }
+.c_team-field--span2 { grid-column: span 2; }
+
+.c_team-label {
+  font-size: 12px;
+  color: $c_team-dim;
+}
+.c_team-req { color: $c_team-danger; margin-left: 4px; }
+
+.c_team-input {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid $c_team-border;
+  color: $c_team-text;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color .15s ease, background-color .15s ease;
+
+  &:focus {
+    border-color: $c_team-primary;
+    background: rgba($c_team-primary, 0.09);
+  }
+
+  &::placeholder { color: rgba(50, 50, 51, 0.45); }
+}
+
+.c_team-check {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; color: $c_team-text;
+}
+
+// Review
+.c_team-review {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 8px 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid $c_team-border;
+  border-radius: 12px;
+  padding: 12px;
+}
+@media (max-width: 720px) {
+  .c_team-review { grid-template-columns: 1fr; }
+}
+.c_team-review__row { display: contents; }
+.c_team-review__k { color: $c_team-dim; font-size: 13px; }
+.c_team-review__v { font-size: 14px; }
+
+// Actions & buttons
+.c_team-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.c_team-btn {
+  appearance: none;
+  border: none;
+  background: $c_team-primary;
+  color: #fff;
+  padding: 12px 15px !important;
+  height: fit-content !important;
+  overflow: hidden !important;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: transform .04s ease, background-color .15s ease;
+
+  &:hover { background: $c_team-primary-600; }
+  &:active { transform: translateY(1px); }
+  &:disabled { opacity: .6; cursor: not-allowed; }
+}
+.c_team-btn--ghost {
+  background: transparent;
+  border: 1px solid $c_team-border;
+  color: $c_team-text;
+  &:hover { border-color: $c_team-primary; color: #fff; }
+}
+
+// Alerts
+.c_team-alert {
+  background: rgba($c_team-danger, 0.12);
+  border: 1px solid rgba($c_team-danger, 0.5);
+  color: #f13c3c;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin: 8px 0;
+}
+
+// Card form
+.c_team-form { margin-top: 4px; }
