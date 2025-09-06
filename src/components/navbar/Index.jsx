@@ -4,7 +4,7 @@ import { Menu, X, LogOut } from "lucide-react"
 import { useAuth } from "../../context/AuthContext";
 import { MdOutlineLogout } from "react-icons/md";
 import { logout } from "../../lib/logout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 export default function Index() {
     const [open, setOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -49,7 +49,7 @@ export default function Index() {
     }, []);
     async function handleLogout() {
         try {
-          await logout(nav)
+            await logout(nav)
 
         } catch (err) {
             console.log(err)
@@ -81,16 +81,16 @@ export default function Index() {
                 </a>
                 {/* Desktop links */}
                 <ul className="nav__links">
-                    <li><a className="nav__link" href="/">Home</a></li>
-                    <li><a className="nav__link" href="/team">Team</a></li>
-                    <li><a className="nav__link" href="/timeline">Timeline</a></li>
-                    <li><a className="nav__link" href="problem-statement">Problems</a></li>
-                    <li><a className="nav__link" href="/resources">Resources</a></li>
-                    <li><a className="nav__link" href="/sessions">Sessions</a></li>
-                    <li><a className="nav__link" href="/mentors">Mentors</a></li>
-                    <li><a className="nav__link" href="/community">Community</a></li>
-                    <li><a className="nav__link" href="/announcements">Announcements</a></li>
-                    <li><a className="nav__link" href="/contact-us">Contact</a></li>
+                    <li><Link className="nav__link" to="/">Home</Link></li>
+                    <li><Link className="nav__link" to="/team">Team</Link></li>
+                    <li><Link className="nav__link" to="/timeline">Timeline</Link></li>
+                    <li><Link className="nav__link" to="/problem-statement">Problems</Link></li>
+                    <li><Link className="nav__link" to="/resources">Resources</Link></li>
+                    <li><Link className="nav__link" to="/sessions">Sessions</Link></li>
+                    <li><Link className="nav__link" to="/mentors">Mentors</Link></li>
+                    {/* <li><Link className="nav__link" to="/community">Community</Link></li> */}
+                    <li><Link className="nav__link" to="/announcements">Announcements</Link></li>
+                    <li><Link className="nav__link" to="/contact-us">Contact</Link></li>
                 </ul>
 
                 {/* CTA (desktop) */}

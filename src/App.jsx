@@ -14,6 +14,10 @@ import SignUp from './pages/signup/Index'
 import Timeline from './pages/timeline/Index'
 import Announcement from './pages/announcement/Index'
 import ProblemStatement from './pages/problemstatememt/Index'
+import Resources from './pages/resources/Index'
+import Sessions from './pages/sessions/Index'
+import Mentors from './pages/mentors/Index'
+import ContactUs from './pages/contactus/Index'
 function App() {
   return (
     <AuthProvider>
@@ -32,6 +36,11 @@ function App() {
             <Route path='/timeline' element={<Timeline/>} />
             <Route path='/announcements' element={<Announcement/>} />
             <Route path='/problem-statement' element={<ProblemStatement/>} />
+            <Route path='/resources' element={<Resources/>} />
+            <Route path='/sessions' element={<Sessions/>} />
+            <Route path='/mentors' element={<Mentors/>} />
+            <Route path='/mentors' element={<Mentors/>} />
+            <Route path='/contact-us' element={<ContactUs/>} />
           </Routes>
           </Layout>
         </BrowserRouter>

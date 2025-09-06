@@ -802,7 +802,9 @@
   background-image: linear-gradient(45deg, #01a79d, black);
   min-height: 100vh;
   overflow: hidden;
+
   /* background-image: url(../images/item-background/line.png); */
+
 }
 
 .wg-banner-1 .bg-item .item-1 {
@@ -1191,9 +1193,11 @@
 .heading-section.style-1 .main-title {
   color: #fff;
 }
-.p_color{
+
+.p_color {
   color: #01a79d;
 }
+
 /* style-2 */
 .heading-section.style-2 {
   /* margin-bottom: 61px; */
@@ -2874,7 +2878,7 @@ ul.list-item li {
   -ms-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  color:#01a79d;
+  color: #01a79d;
 }
 
 .flat-accordion .flat-toggle.active .toggle-title .arrowicon,
@@ -2968,7 +2972,7 @@ ul.list-item li {
 
 .faqs-wrap-1 .heading-section {
   margin-bottom: 30px;
- ;
+  ;
 }
 
 .faqs-wrap-1 p.text {
@@ -6019,6 +6023,33 @@ iframe.map {
 
   }
 
+  @media (max-width:600px) {
+    .event-details {
+      gap: 10px;
+    }
+
+    .event-card {
+      padding: 0;
+      width: 200px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 400 !important;
+
+    }
+
+    .event-card .icon {
+      font-size: 20px;
+    }
+
+    .event-card-text {
+      font-size: 14px;
+      font-weight: 400 !important;
+    }
+
+  }
+
   .event-card:hover {
     background: rgba(255, 255, 255, 0.1);
     transform: scale(1.05);
@@ -6047,7 +6078,14 @@ iframe.map {
   .login-sinup-btns {
     margin-top: 20rem;
     position: relative;
+
+    @media (max-width: 720px) {
+      margin-top: 1.5rem;
+    }
+
+
   }
+
 
   .login-sinup-btns::before {
     content: "";
@@ -6124,7 +6162,8 @@ iframe.map {
     }
 
     .subtitle {
-      font-size: 20px;
+      font-size: 18px;
+      margin-bottom: 15px;
     }
   }
 }
