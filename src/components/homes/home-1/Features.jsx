@@ -45,7 +45,7 @@ export default function Design() {
                 </li>
               </ul>
 
-              <a href="#register" className="tf-button type-2">
+              <a href="/team" className="tf-button type-2">
                 <span>Register Now</span>
                 <i className="icon-arrow-right2" />
               </a>

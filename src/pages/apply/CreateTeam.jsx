@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getMyTeamId } from '../../lib/team';
 import { State, City } from 'country-state-city';
 import {FileUser} from 'lucide-react';
+import Loader from '../../components/Loader/Loader';
 const TOTAL_STEPS = 4;
 
 export default function CreateTeam() {
@@ -248,7 +249,7 @@ export default function CreateTeam() {
 
     // ----- render steps -----
     if (checking) {
-        return <div className="c_team-wrap"><div className="c_team-card"><p>Checking team status…</p></div></div>;
+        return <Loader/>;
     }
     if (!session) {
         return <div className="c_team-wrap"><div className="c_team-card"><p>Please log in first.</p></div></div>;

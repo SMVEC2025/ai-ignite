@@ -6075,7 +6075,7 @@ iframe.map {
   }
 
   .login-sinup-btns {
-    margin-top: 20rem;
+    margin-top: 15rem;
     position: relative;
 
     @media (max-width: 720px) {

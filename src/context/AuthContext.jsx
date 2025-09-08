@@ -29,7 +29,6 @@ export default function AuthProvider({ children }) {
     });
     return () => sub.subscription.unsubscribe();
   }, []);
- console.log(session)
   return (
     <AuthContext.Provider value={{ session, loading }}>
       {children}

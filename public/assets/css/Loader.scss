@@ -1,0 +1,39 @@
+/* src/components/Loader.scss */
+$loader-teal: #01a79d;
+$loader-gold: #d4b365;
+
+.loader {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff; // white base
+  gap: 16px;
+}
+
+.loader-spinner {
+  width: 70px;
+  height: 70px;
+  border: 6px solid rgba($loader-teal, 0.2);
+  border-top-color: $loader-teal;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+
+  /* dual ring effect */
+  box-shadow: 0 0 0 3px rgba($loader-gold, 0.25);
+}
+
+.loader-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $loader-teal;
+  letter-spacing: 0.5px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

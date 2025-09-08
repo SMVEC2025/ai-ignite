@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import Breadcrumbs from "../../components/common/BreadCrumbs";
+import Loader from "../../components/Loader/Loader";
 
 export default function Index() {
     const [events, setEvents] = useState([]);
@@ -58,7 +59,7 @@ export default function Index() {
             />
            
 
-            {loading && <div className="timeline-loading">Loading timeline…</div>}
+            {loading && <Loader/>}
             {msg && <div className="timeline-error">{msg}</div>}
 
             {!loading && !msg && (

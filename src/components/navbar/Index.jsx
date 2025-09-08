@@ -35,7 +35,6 @@ export default function Index() {
     }, [open]);
 
     const close = () => setOpen(false);
-    console.log(session?.user?.email[0])
     // Close when clicking outside
     useEffect(() => {
         const handleClickOutside = (e) => {
@@ -52,7 +51,15 @@ export default function Index() {
             await logout(nav)
 
         } catch (err) {
-            console.log(err)
+        } finally {
+            setShowProfile(false);
+        }
+    }
+        async function handleLogout() {
+        try {
+            await logout(nav)
+
+        } catch (err) {
         } finally {
             setShowProfile(false);
         }
@@ -85,9 +92,9 @@ export default function Index() {
                     <li><Link className="nav__link" to="/team">Team</Link></li>
                     <li><Link className="nav__link" to="/timeline">Timeline</Link></li>
                     <li><Link className="nav__link" to="/problem-statement">Problems</Link></li>
-                    <li><Link className="nav__link" to="/resources">Resources</Link></li>
+                    {/* <li><Link className="nav__link" to="/resources">Resources</Link></li>
                     <li><Link className="nav__link" to="/sessions">Sessions</Link></li>
-                    <li><Link className="nav__link" to="/mentors">Mentors</Link></li>
+                    <li><Link className="nav__link" to="/mentors">Mentors</Link></li> */}
                     {/* <li><Link className="nav__link" to="/community">Community</Link></li> */}
                     <li><Link className="nav__link" to="/announcements">Announcements</Link></li>
                     <li><Link className="nav__link" to="/contact-us">Contact</Link></li>
@@ -101,6 +108,7 @@ export default function Index() {
                     className="nav__hamburger"
                     onClick={() => setOpen(true)}
                 >
+                    
                     <Menu />
 
                 </button>
@@ -114,10 +122,7 @@ export default function Index() {
                 <aside className={`nav__drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
                     <div className="nav__drawerTop">
                         <a className="nav__brand" href="/" onClick={close}>
-                            <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M12 2l7.5 4.33v11.34L12 22l-7.5-4.33V6.33L12 2z" fill="currentColor" />
-                            </svg>
-                            <span className="nav__brandText">YourBrand</span>
+                         <span className="profile">{session?.user?.email[0]}</span>{session?.user?.email}
                         </a>
                         <button className="nav__close" onClick={close}>
                             <X />
@@ -125,13 +130,18 @@ export default function Index() {
                     </div>
 
                     <ul className="nav__drawerLinks" onClick={close}>
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/about-us">About</a></li>
-                        <li><a href="#">Programs</a></li>
-                        <li><a href="#">Research</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><Link className="nav__link" to="/">Home</Link></li>
+                        <li><Link className="nav__link" to="/team">Team</Link></li>
+                        <li><Link className="nav__link" to="/timeline">Timeline</Link></li>
+                        <li><Link className="nav__link" to="/problem-statement">Problems</Link></li>
+                        {/* <li><Link className="nav__link" to="/resources">Resources</Link></li>
+                        <li><Link className="nav__link" to="/sessions">Sessions</Link></li>
+                        <li><Link className="nav__link" to="/mentors">Mentors</Link></li> */}
+                        {/* <li><Link className="nav__link" to="/community">Community</Link></li> */}
+                        <li><Link className="nav__link" to="/announcements">Announcements</Link></li>
+                        <li><Link className="nav__link" to="/contact-us">Contact Us</Link></li>
                     </ul>
-
+                     <a className="log-out" onClick={handleLogout}>Log Out</a>
                     <a className="nav__drawerCTA" href="#" onClick={close}>Apply Now</a>
                 </aside>
             </>

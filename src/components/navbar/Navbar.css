@@ -54,9 +54,37 @@
 .nav__brand {
     display: flex;
     align-items: center;
-    img{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: calc(80%);
+    overflow: hidden;
+
+    @media (max-width: 600px) {}
+
+    img {
+        height: 40px;
+
+    }
+
+
+    img {
         height: 60px;
         width: auto;
+    }
+
+    .profile {
+        min-height: 40px !important;
+        min-width: 40px !important;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 8px;
+        background: linear-gradient(45deg, #05442a, #068065);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+
+
     }
 }
 
@@ -160,6 +188,21 @@
     display: flex;
     flex-direction: column;
     padding: 16px;
+
+    .log-out {
+        background-color: rgba(95, 91, 91, 0);
+        padding: 5px 20px !important;
+        width: fit-content !important;
+        font-size: 14px !important;
+        color: rgb(54, 53, 53) !important;
+        font-weight: 600;
+        border: 1px solid gray;
+        margin-left: 15px;
+        background-color: rgba(128, 128, 128, 0.164);
+        border-radius: 4px;
+        margin-top: 10px;
+
+    }
 }
 
 .nav__drawer.is-open {
@@ -203,7 +246,11 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+
 }
+
+
 
 .nav__drawerLinks a {
     font-size: 15px;
@@ -237,7 +284,13 @@
     position: absolute;
     right: 30px;
     top: 50%;
+    display: flex;
     transform: translateY(-50%);
+
+    @media (max-width: 1024px) {
+        display: none !important;
+
+    }
 
     .nav-icon {
         width: 45px;
@@ -253,30 +306,33 @@
         cursor: pointer;
         text-transform: uppercase;
     }
-    .nav-profile-text{
+
+    .nav-profile-text {
         position: absolute;
         right: 10px;
-        top: 110px                        ;
+        top: 110px;
         transform: translateY(-50%);
         background-color: #041d08;
         border: 1px solid gray;
         backdrop-filter: blur(5px);
         border-radius: 3px;
         padding: 2px 0;
-        li{
+
+        li {
             font-size: 13px;
             color: white;
             padding: 12px 15px;
             display: flex;
             align-items: center;
             gap: 5px;
-            &:hover{
+
+            &:hover {
                 background-color: #b1aa4a31;
                 cursor: pointer;
             }
-          
+
         }
-       
+
     }
 }
 
