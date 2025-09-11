@@ -1,102 +1,80 @@
-// src/pages/InviteJoin.jsx
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabaseClient';
 import { getMyTeamId } from '../../lib/team';
 import { State, City } from 'country-state-city';
+import { UserPlus } from 'lucide-react';
+import Loader from '../../components/Loader/Loader';
 
 const TOTAL_STEPS = 4;
 
 export default function InviteJoin() {
-  const { token } = useParams();            // /invite/:token
   const nav = useNavigate();
-  const redirectingRef = useRef(false);
+  const { token: tokenParam } = useParams();
+  const [search] = useSearchParams();
+  const token = tokenParam || search.get('t') || '';
 
   const [session, setSession] = useState(null);
   const [checking, setChecking] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [msg, setMsg] = useState('');
   const [step, setStep] = useState(1);
-  const [needLogin, setNeedLogin] = useState(false);
 
-  // unified form state (same fields as Create Team)
   const [form, setForm] = useState({
-    // core
+    // Step 1 — basic
     name: '',
     phone: '',
     age: '',
+    // Step 2 — profile/education
     isStudent: false,
     institute: '',
-
-    // manual location
-    stateInput: '',
-    stateIso: '',
-    stateName: '',
-    cityInput: '',
-    cityName: '',
-    area: '',
-    pincode: '',
-
-    // extra profile
-    gender: '',
-    dob: '',
     course: '',
     currentYear: '',
     cgpa: '',
+    gender: '',
+    dob: '',
     programsKnownCsv: '',
     experienceLevel: '',
     previousProjects: '',
     preferredTrack: '',
     problemPreference: '',
     motivation: '',
-    needAccommodation: false
+    needAccommodation: false,
+    // Step 3 — location
+    stateInput: '',
+    stateIso: '',
+    stateName: '',
+    cityInput: '',
+    cityName: '',
+    area: '',
+    pincode: ''
   });
 
-  // ---- auth + membership guards ----
+  // ---- initial checks: session + already in a team
   useEffect(() => {
-    let alive = true;
     (async () => {
+      if (!token) { setMsg('Invalid or missing invite link.'); setChecking(false); return; }
       const { data } = await supabase.auth.getSession();
-      if (!alive) return;
       const s = data?.session ?? null;
       setSession(s);
-
-      if (!s) {
-        setNeedLogin(true);
-        setChecking(false);
-        return;
-      }
-
+      if (!s) { nav(`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`, { replace: true }); return; }
       const teamId = await getMyTeamId();
-      if (!alive) return;
-      if (teamId && !redirectingRef.current) {
-        redirectingRef.current = true;
-        nav('/team', { replace: true });
-      } else {
-        setChecking(false);
-      }
+      if (teamId) { nav('/team', { replace: true }); return; }
+      setChecking(false);
     })();
+  }, [nav, token]);
 
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => {
-      if (!alive) return;
-      setSession(s);
-      if (s) setNeedLogin(false);
-    });
-
-    return () => {
-      alive = false;
-      sub?.subscription?.unsubscribe?.();
-    };
-  }, [nav]);
-
-  // ---- location data ----
+  // ---- location sources
   const allStates = useMemo(() => State.getStatesOfCountry('IN') || [], []);
   const citiesForState = useMemo(
     () => (form.stateIso ? City.getCitiesOfState('IN', form.stateIso) || [] : []),
     [form.stateIso]
   );
 
-  // ---- helpers ----
+  // ---- helpers
+  const vInt = (v) => { const n = parseInt(v, 10); return Number.isFinite(n) ? n : null; };
+  const vNum = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+
   function resolveState(input) {
     const raw = (input || '').trim();
     if (!raw) return null;
@@ -118,15 +96,11 @@ export default function InviteJoin() {
       const next = { ...prev, stateInput: v };
       const s = resolveState(v);
       if (s) {
-        next.stateIso = s.isoCode;
-        next.stateName = s.name;
-        next.cityInput = '';
-        next.cityName = '';
+        next.stateIso = s.isoCode; next.stateName = s.name;
+        next.cityInput = ''; next.cityName = '';
       } else {
-        next.stateIso = '';
-        next.stateName = '';
-        next.cityInput = '';
-        next.cityName = '';
+        next.stateIso = ''; next.stateName = '';
+        next.cityInput = ''; next.cityName = '';
       }
       return next;
     });
@@ -141,48 +115,31 @@ export default function InviteJoin() {
   }
   function onCityInputChange(e) {
     const v = e.target.value;
-    setForm(prev => {
-      const c = resolveCity(v);
-      return { ...prev, cityInput: v, cityName: c ? c.name : '' };
-    });
+    setForm(prev => ({ ...prev, cityInput: v, cityName: resolveCity(v)?.name || '' }));
   }
   function onCityBlur() {
-    setForm(prev => {
-      if (prev.cityName) return prev;
-      const c = resolveCity(prev.cityInput);
-      if (c) return { ...prev, cityName: c.name };
-      return prev;
-    });
+    setForm(prev => prev.cityName ? prev : ({ ...prev, cityName: resolveCity(prev.cityInput)?.name || '' }));
   }
 
-  // ---- validations (same as Create Team) ----
-  const vInt = (v) => {
-    const n = parseInt(v, 10);
-    return Number.isFinite(n) ? n : null;
-  };
-  const vNum = (v) => {
-    const n = Number(v);
-    return Number.isFinite(n) ? n : null;
-  };
-
+  // ---- validations
   function validateStep1() {
     if (!form.name.trim()) return 'Please enter your name.';
     if (!form.phone.trim()) return 'Please enter your phone number.';
     if (form.age) {
       const n = vInt(form.age);
-      if (n === null || n < 10 || n > 120) return 'Please enter a valid age (10–120).';
+      if (n === null || n < 10 || n > 120) return 'Please enter a valid age.';
     }
-    if (form.isStudent && !form.institute.trim()) return 'Please enter your institute name.';
     return null;
   }
   function validateStep2() {
+    if (form.isStudent && !form.institute.trim()) return 'Please enter your institute/college name.';
     if (form.currentYear) {
       const y = vInt(form.currentYear);
-      if (y === null || y < 1 || y > 20) return 'Current year must be between 1 and 20.';
+      if (y === null || y < 1 || y > 20) return 'Current year must be 1–20.';
     }
     if (form.cgpa) {
       const c = vNum(form.cgpa);
-      if (c === null || c < 0 || c > 10) return 'CGPA must be between 0 and 10.';
+      if (c === null || c < 0 || c > 10) return 'CGPA must be 0–10.';
     }
     if (form.dob) {
       const d = new Date(form.dob);
@@ -201,45 +158,48 @@ export default function InviteJoin() {
     return null;
   }
 
-  async function goNext() {
+  function goNext() {
     setMsg('');
     let err = null;
     if (step === 1) err = validateStep1();
-    else if (step === 2) err = validateStep2();
-    else if (step === 3) err = validateStep3();
+    if (step === 2) err = validateStep2();
+    if (step === 3) err = validateStep3();
     if (err) { setMsg(err); return; }
     setStep(s => Math.min(TOTAL_STEPS, s + 1));
   }
-  function goBack() {
-    setMsg('');
-    setStep(s => Math.max(1, s - 1));
+  function goBack() { setMsg(''); setStep(s => Math.max(1, s - 1)); }
+
+  // prevent Enter from submitting before review
+  function onFormKeyDown(e) {
+    if (e.key === 'Enter' && step < TOTAL_STEPS) {
+      e.preventDefault();
+      goNext();
+    }
   }
 
-  // ---- submit ----
+  // ---- submit (join)
   async function submit(e) {
     e?.preventDefault?.();
     setMsg('');
-
     const err3 = validateStep3();
     if (err3) { setMsg(err3); setStep(3); return; }
 
-    const programsArray =
-      form.programsKnownCsv
-        .split(',')
-        .map(t => t.trim())
-        .filter(Boolean)
-        .map(v => v.toLowerCase());
-    const programsKnown = programsArray.length ? Array.from(new Set(programsArray)) : null;
+    const programsKnown = form.programsKnownCsv
+      ? Array.from(new Set(form.programsKnownCsv.split(',').map(t => t.trim().toLowerCase()).filter(Boolean)))
+      : null;
 
     setSubmitting(true);
     const { error } = await supabase.rpc('join_team_by_token', {
-      p_token: token,
       // core
       p_member_name: form.name.trim(),
       p_member_phone: form.phone.trim(),
       p_age: form.age ? vInt(form.age) : null,
       p_is_student: form.isStudent,
-      p_institute_name: form.isStudent ? form.institute.trim() : null,
+      // store institute even if not student (company name)
+      p_institute_name: form.institute.trim() || null,
+      p_course: form.isStudent ? (form.course || null) : null,
+      p_current_year: form.isStudent && form.currentYear ? vInt(form.currentYear) : null,
+      p_cgpa: form.isStudent && form.cgpa ? vNum(form.cgpa) : null,
 
       // location
       p_state_code: form.stateIso,
@@ -250,60 +210,38 @@ export default function InviteJoin() {
       p_pincode: form.pincode || null,
 
       // extras
-      p_gender: form.gender ? form.gender.toLowerCase() : null,
+      p_gender: form.gender || null,
       p_dob: form.dob || null,
-      p_course: form.course || null,
-      p_current_year: form.currentYear ? vInt(form.currentYear) : null,
-      p_cgpa: form.cgpa ? vNum(form.cgpa) : null,
       p_programs_known: programsKnown,
       p_ai_ml_experience_level: form.experienceLevel || null,
       p_previous_projects: form.previousProjects || null,
       p_preferred_track: form.preferredTrack || null,
       p_problem_statement_preference: form.problemPreference || null,
       p_motivation: form.motivation || null,
-      p_need_accommodation: Boolean(form.needAccommodation)
+      p_need_accommodation: Boolean(form.needAccommodation),
+
+      // token
+      p_token: token
     });
     setSubmitting(false);
 
-    if (error) setMsg(error.message);
-    else nav('/team');
+    if (error) { setMsg(error.message); return; }
+    nav('/team');
   }
 
-  // ---- render ----
-  if (checking) {
-    return <div className="c_team-wrap"><div className="c_team-card"><p>Checking…</p></div></div>;
-  }
-
-  if (needLogin || !session) {
+  // ---- UI
+  if (checking) return <Loader />;
+  if (!session) {
     return (
       <div className="c_team-wrap">
-        <div className="c_team-card">
-          <header className="c_team-header">
-            <h2>Join this team</h2>
-          </header>
-          <div className="c_team-form">
-            <p className="c_team-label">Please log in to continue.</p>
-            <div className="c_team-actions">
-              <button
-                className="c_team-btn"
-                onClick={() => supabase.auth.signInWithOAuth({
-                  provider: 'google',
-                  options: { redirectTo: window.location.href }
-                })}
-              >Continue with Google</button>
-              <button
-                className="c_team-btn c_team-btn--ghost"
-                onClick={() => supabase.auth.signInWithOAuth({
-                  provider: 'github',
-                  options: { redirectTo: window.location.href }
-                })}
-              >Continue with GitHub</button>
-              <Link to="/login" state={{ next: window.location.pathname + window.location.search }} className="c_team-user">
-                or login with email
-              </Link>
-            </div>
-          </div>
-        </div>
+        <div className="c_team-card"><p>Please log in first.</p></div>
+      </div>
+    );
+  }
+  if (!token) {
+    return (
+      <div className="c_team-wrap">
+        <div className="c_team-card"><p className="c_team-alert">Invalid invite link.</p></div>
       </div>
     );
   }
@@ -312,83 +250,82 @@ export default function InviteJoin() {
     <div className="c_team-wrap">
       <div className="c_team-card">
         <header className="c_team-header">
-          <h2>Join this team</h2>
+          <h2><UserPlus /> Join Team via Invite</h2>
           <span className="c_team-user">{session?.user?.email}</span>
         </header>
 
         <Stepper step={step} />
-
         {msg && <div className="c_team-alert">{msg}</div>}
 
-        <form onSubmit={submit} className="c_team-form" autoComplete="off">
+        <form className="c_team-form" onKeyDown={onFormKeyDown} onSubmit={submit} autoComplete="off">
+          {/* STEP 1 — Basic */}
           {step === 1 && (
             <section className="c_team-section">
               <h3 className="c_team-title">Basic details</h3>
               <div className="c_team-grid">
                 <Field label="Your name" required>
-                  <input
-                    className="c_team-input"
-                    value={form.name}
-                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-                    placeholder="e.g., Ananya Sharma"
-                    required
-                  />
+                  <input className="c_team-input" value={form.name}
+                         onChange={e=>setForm(f=>({...f,name:e.target.value}))}
+                         placeholder="e.g., Ananya Sharma" required />
                 </Field>
                 <Field label="Phone number" required>
-                  <input
-                    className="c_team-input"
-                    value={form.phone}
-                    onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
-                    placeholder="e.g., 9876543210"
-                    required
-                  />
+                  <input className="c_team-input" value={form.phone}
+                         onChange={e=>setForm(f=>({...f,phone:e.target.value}))}
+                         placeholder="e.g., 9876543210" required />
                 </Field>
                 <Field label="Age (optional)">
-                  <input
-                    className="c_team-input"
-                    value={form.age}
-                    onChange={e => setForm(f => ({ ...f, age: e.target.value }))}
-                    inputMode="numeric"
-                    placeholder="e.g., 21"
-                  />
+                  <input className="c_team-input" value={form.age}
+                         onChange={e=>setForm(f=>({...f,age:e.target.value}))}
+                         inputMode="numeric" placeholder="e.g., 21" />
                 </Field>
-
-                <Field>
-                  <label className="c_team-check">
-                    <input
-                      type="checkbox"
-                      checked={form.isStudent}
-                      onChange={e => setForm(f => ({ ...f, isStudent: e.target.checked }))}
-                    />
-                    Are you a student?
-                  </label>
-                </Field>
-
-                {form.isStudent && (
-                  <Field label="Institute name" required span={2}>
-                    <input
-                      className="c_team-input"
-                      value={form.institute}
-                      onChange={e => setForm(f => ({ ...f, institute: e.target.value }))}
-                      placeholder="e.g., IIT Madras"
-                      required
-                    />
-                  </Field>
-                )}
               </div>
             </section>
           )}
 
+          {/* STEP 2 — Profile & Education */}
           {step === 2 && (
             <section className="c_team-section">
-              <h3 className="c_team-title">Profile details</h3>
+              <h3 className="c_team-title">Profile & Education</h3>
               <div className="c_team-grid">
+                <Field span={2}>
+                  <label className="c_team-check">
+                    <input type="checkbox" checked={form.isStudent}
+                           onChange={e=>setForm(f=>({...f,isStudent:e.target.checked}))} />
+                    Are you a student?
+                  </label>
+                </Field>
+
+                {/* Institute shown always; required if student */}
+                <Field label="Institute / College / Company name" span={2} required={form.isStudent}>
+                  <input className="c_team-input" value={form.institute}
+                         onChange={e=>setForm(f=>({...f,institute:e.target.value}))}
+                         placeholder="Institute / College / Company name"
+                         required={form.isStudent} />
+                </Field>
+
+                {form.isStudent && (
+                  <>
+                    <Field label="Course" span={2}>
+                      <input className="c_team-input" value={form.course}
+                             onChange={e=>setForm(f=>({...f,course:e.target.value}))}
+                             placeholder="e.g., B.Tech CSE" />
+                    </Field>
+                    <Field label="Current Year (1–20)">
+                      <input className="c_team-input" value={form.currentYear}
+                             onChange={e=>setForm(f=>({...f,currentYear:e.target.value}))}
+                             inputMode="numeric" placeholder="e.g., 3" />
+                    </Field>
+                    <Field label="CGPA (0–10)">
+                      <input className="c_team-input" value={form.cgpa}
+                             onChange={e=>setForm(f=>({...f,cgpa:e.target.value}))}
+                             inputMode="decimal" placeholder="e.g., 8.45" />
+                    </Field>
+                  </>
+                )}
+
                 <Field label="Gender">
-                  <select
-                    className="c_team-input"
-                    value={form.gender}
-                    onChange={e => setForm(f => ({ ...f, gender: e.target.value }))}
-                  >
+                  <select className="c_team-input" value={form.gender}
+                          onChange={e=>setForm(f=>({...f,gender:e.target.value}))}>
                     <option value="">— Select —</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -397,70 +334,26 @@ export default function InviteJoin() {
                   </select>
                 </Field>
                 <Field label="Date of birth">
-                  <input
-                    type="date"
-                    className="c_team-input"
-                    value={form.dob}
-                    onChange={e => setForm(f => ({ ...f, dob: e.target.value }))}
-                  />
+                  <input type="date" className="c_team-input" value={form.dob}
+                         onChange={e=>setForm(f=>({...f,dob:e.target.value}))}/>
                 </Field>
-
-                <Field label="Course" span={2}>
-                  <input
-                    className="c_team-input"
-                    value={form.course}
-                    onChange={e => setForm(f => ({ ...f, course: e.target.value }))}
-                    placeholder="e.g., B.Tech CSE"
-                  />
-                </Field>
-
-                <Field label="Current Year (1–20)">
-                  <input
-                    className="c_team-input"
-                    value={form.currentYear}
-                    onChange={e => setForm(f => ({ ...f, currentYear: e.target.value }))}
-                    inputMode="numeric"
-                    placeholder="e.g., 3"
-                  />
-                </Field>
-                <Field label="CGPA (0–10)">
-                  <input
-                    className="c_team-input"
-                    value={form.cgpa}
-                    onChange={e => setForm(f => ({ ...f, cgpa: e.target.value }))}
-                    inputMode="decimal"
-                    placeholder="e.g., 8.45"
-                  />
-                </Field>
-
                 <Field label="Programs Known (comma-separated)" span={2}>
-                  <input
-                    className="c_team-input"
-                    value={form.programsKnownCsv}
-                    onChange={e => setForm(f => ({ ...f, programsKnownCsv: e.target.value }))}
-                    placeholder="Python, C++, JavaScript"
-                  />
+                  <input className="c_team-input" value={form.programsKnownCsv}
+                         onChange={e=>setForm(f=>({...f,programsKnownCsv:e.target.value}))}
+                         placeholder="Python, C++, JavaScript" />
                 </Field>
-
-                <Field label="AI/ML Experience level">
-                  <select
-                    className="c_team-input"
-                    value={form.experienceLevel}
-                    onChange={e => setForm(f => ({ ...f, experienceLevel: e.target.value }))}
-                  >
+                <Field label="AI/ML Experience">
+                  <select className="c_team-input" value={form.experienceLevel}
+                          onChange={e=>setForm(f=>({...f,experienceLevel:e.target.value}))}>
                     <option value="">— Select —</option>
                     <option value="beginner">Beginner</option>
                     <option value="intermediate">Intermediate</option>
                     <option value="advanced">Advanced</option>
                   </select>
                 </Field>
-
                 <Field label="Preferred Track">
-                  <select
-                    className="c_team-input"
-                    value={form.preferredTrack}
-                    onChange={e => setForm(f => ({ ...f, preferredTrack: e.target.value }))}
-                  >
+                  <select className="c_team-input" value={form.preferredTrack}
+                          onChange={e=>setForm(f=>({...f,preferredTrack:e.target.value}))}>
                     <option value="">— Select —</option>
                     <option value="AI/ML">AI/ML</option>
                     <option value="Web">Web</option>
@@ -469,44 +362,25 @@ export default function InviteJoin() {
                     <option value="Open">Open / Other</option>
                   </select>
                 </Field>
-
                 <Field label="Previous AI/Tech Projects" span={2}>
-                  <textarea
-                    className="c_team-input"
-                    rows={3}
-                    value={form.previousProjects}
-                    onChange={e => setForm(f => ({ ...f, previousProjects: e.target.value }))}
-                    placeholder="Briefly describe previous projects…"
-                  />
+                  <textarea className="c_team-input" rows={3} value={form.previousProjects}
+                            onChange={e=>setForm(f=>({...f,previousProjects:e.target.value}))}
+                            placeholder="Briefly describe previous projects…" />
                 </Field>
-
                 <Field label="Problem Statement Preference" span={2}>
-                  <textarea
-                    className="c_team-input"
-                    rows={3}
-                    value={form.problemPreference}
-                    onChange={e => setForm(f => ({ ...f, problemPreference: e.target.value }))}
-                    placeholder="Any specific problem areas you prefer…"
-                  />
+                  <textarea className="c_team-input" rows={3} value={form.problemPreference}
+                            onChange={e=>setForm(f=>({...f,problemPreference:e.target.value}))}
+                            placeholder="Any specific problem areas you prefer…" />
                 </Field>
-
                 <Field label="Why do you want to participate?" span={2}>
-                  <textarea
-                    className="c_team-input"
-                    rows={3}
-                    value={form.motivation}
-                    onChange={e => setForm(f => ({ ...f, motivation: e.target.value }))}
-                    placeholder="Tell us your motivation…"
-                  />
+                  <textarea className="c_team-input" rows={3} value={form.motivation}
+                            onChange={e=>setForm(f=>({...f,motivation:e.target.value}))}
+                            placeholder="Tell us your motivation…" />
                 </Field>
-
                 <Field span={2}>
                   <label className="c_team-check">
-                    <input
-                      type="checkbox"
-                      checked={form.needAccommodation}
-                      onChange={e => setForm(f => ({ ...f, needAccommodation: e.target.checked }))}
-                    />
+                    <input type="checkbox" checked={form.needAccommodation}
+                           onChange={e=>setForm(f=>({...f,needAccommodation:e.target.checked}))}/>
                     Need Accommodation
                   </label>
                 </Field>
@@ -514,83 +388,62 @@ export default function InviteJoin() {
             </section>
           )}
 
+          {/* STEP 3 — Location */}
           {step === 3 && (
             <section className="c_team-section">
               <h3 className="c_team-title">Location</h3>
               <div className="c_team-grid">
                 <Field label="State / UT" span={2} required>
-                  <input
-                    list="statesIN"
-                    className="c_team-input"
-                    value={form.stateInput}
-                    onChange={onStateInputChange}
-                    onBlur={onStateBlur}
-                    placeholder="Start typing & pick from suggestions"
-                    required
-                  />
+                  <input list="statesIN" className="c_team-input" value={form.stateInput}
+                         onChange={onStateInputChange} onBlur={onStateBlur}
+                         placeholder="Start typing & pick from suggestions" required />
                   <datalist id="statesIN">
-                    {allStates.map(s => (
-                      <option key={s.isoCode} value={`${s.name} (${s.isoCode})`} />
-                    ))}
+                    {allStates.map(s => <option key={s.isoCode} value={`${s.name} (${s.isoCode})`} />)}
                   </datalist>
-                  {form.stateIso && (
-                    <small className="c_team-hint">Selected: {form.stateName} ({form.stateIso})</small>
-                  )}
+                  {form.stateIso && <small className="c_team-hint">Selected: {form.stateName} ({form.stateIso})</small>}
                 </Field>
-
                 <Field label="City" span={2} required>
-                  <input
-                    list="citiesIN"
-                    className="c_team-input"
-                    value={form.cityInput}
-                    onChange={onCityInputChange}
-                    onBlur={onCityBlur}
-                    disabled={!form.stateIso}
-                    placeholder={form.stateIso ? 'Type your city & pick from suggestions' : 'Select state first'}
-                    required
-                  />
+                  <input list="citiesIN" className="c_team-input" value={form.cityInput}
+                         onChange={onCityInputChange} onBlur={onCityBlur}
+                         disabled={!form.stateIso}
+                         placeholder={form.stateIso ? 'Type your city & pick' : 'Select state first'} required />
                   <datalist id="citiesIN">
-                    {citiesForState.map(c => (
-                      <option key={`${form.stateIso}:${c.name}`} value={c.name} />
-                    ))}
+                    {citiesForState.map(c => <option key={`${form.stateIso}:${c.name}`} value={c.name} />)}
                   </datalist>
                   {form.cityName && <small className="c_team-hint">Selected: {form.cityName}</small>}
                 </Field>
-
                 <Field label="Area / Locality (optional)" span={2}>
-                  <input
-                    className="c_team-input"
-                    value={form.area}
-                    onChange={e => setForm(f => ({ ...f, area: e.target.value }))}
-                  />
+                  <input className="c_team-input" value={form.area}
+                         onChange={e=>setForm(f=>({...f,area:e.target.value}))}/>
                 </Field>
-
                 <Field label="Pincode (optional)">
-                  <input
-                    className="c_team-input"
-                    value={form.pincode}
-                    onChange={e => setForm(f => ({ ...f, pincode: e.target.value }))}
-                    inputMode="numeric"
-                    maxLength={6}
-                  />
+                  <input className="c_team-input" value={form.pincode}
+                         onChange={e=>setForm(f=>({...f,pincode:e.target.value}))}
+                         inputMode="numeric" maxLength={6} />
                 </Field>
               </div>
             </section>
           )}
 
+          {/* STEP 4 — Review & Join */}
           {step === 4 && (
             <section className="c_team-section">
-              <h3 className="c_team-title">Review & Join</h3>
+              <h3 className="c_team-title">Review & Join Team</h3>
               <div className="c_team-review">
                 <ReviewRow k="Name" v={form.name} />
                 <ReviewRow k="Phone" v={form.phone} />
                 <ReviewRow k="Age" v={form.age || '—'} />
-                <ReviewRow k="Student" v={form.isStudent ? `Yes (${form.institute})` : 'No'} />
+                <ReviewRow k="Student" v={form.isStudent ? 'Yes' : 'No'} />
+                <ReviewRow k="Institute / College / Company" v={form.institute || '—'} />
+                {form.isStudent && (
+                  <>
+                    <ReviewRow k="Course" v={form.course || '—'} />
+                    <ReviewRow k="Current Year" v={form.currentYear || '—'} />
+                    <ReviewRow k="CGPA" v={form.cgpa || '—'} />
+                  </>
+                )}
                 <ReviewRow k="Gender" v={form.gender || '—'} />
                 <ReviewRow k="DOB" v={form.dob || '—'} />
-                <ReviewRow k="Course" v={form.course || '—'} />
-                <ReviewRow k="Current Year" v={form.currentYear || '—'} />
-                <ReviewRow k="CGPA" v={form.cgpa || '—'} />
                 <ReviewRow k="Programs Known" v={form.programsKnownCsv || '—'} />
                 <ReviewRow k="Experience" v={form.experienceLevel || '—'} />
                 <ReviewRow k="Preferred Track" v={form.preferredTrack || '—'} />
@@ -603,24 +456,24 @@ export default function InviteJoin() {
                 <ReviewRow k="Area" v={form.area || '—'} />
                 <ReviewRow k="Pincode" v={form.pincode || '—'} />
               </div>
+
+              <div className="c_team-actions" style={{ marginTop: 10 }}>
+                <button type="button" className="c_team-btn" onClick={submit} disabled={submitting}>
+                  {submitting ? 'Joining…' : 'Confirm & Join Team'}
+                </button>
+              </div>
             </section>
           )}
 
+          {/* Bottom nav */}
           <div className="c_team-actions">
             {step > 1 ? (
-              <button type="button" className="c_team-btn c_team-btn--ghost" onClick={goBack}>
-                Back
-              </button>
+              <button type="button" className="c_team-btn c_team-btn--ghost" onClick={goBack}>Back</button>
             ) : <span />}
-
             {step < TOTAL_STEPS ? (
-              <button type="button" className="c_team-btn" onClick={goNext}>
-                Next
-              </button>
+              <button type="button" className="c_team-btn" onClick={goNext}>Next</button>
             ) : (
-              <button type="submit" className="c_team-btn" disabled={submitting}>
-                {submitting ? 'Joining…' : 'Join team'}
-              </button>
+              <span />
             )}
           </div>
         </form>
@@ -629,7 +482,7 @@ export default function InviteJoin() {
   );
 }
 
-/* ---- tiny UI helpers (same as Create Team) ---- */
+/* ---------- tiny UI helpers ---------- */
 function Stepper({ step }) {
   return (
     <div className="c_team-steps">

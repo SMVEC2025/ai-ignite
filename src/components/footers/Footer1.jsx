@@ -1,11 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaWhatsapp, FaInstagram } from "react-icons/fa";
 import { SlSocialFacebook } from "react-icons/sl";
-import { RiLinkedinLine } from "react-icons/ri";
+import { SlSocialYoutube } from "react-icons/sl";
 import { FaXTwitter } from "react-icons/fa6";
 
-import { menuItems, menuItems2 } from "../../data/footer";
 export default function Footer1() {
+  const navigate = useNavigate();
+  const handlenavigate = (path) => {
+    try {
+      navigate(path);
+    } catch (error) {
+   console.log(error)
+    }
+  }
   return (
     <footer id="footer">
       <div className="themesflat-container">
@@ -33,40 +40,48 @@ export default function Footer1() {
             </p>
             <ul className="wg-social">
               <li >
-                <a><SlSocialFacebook /></a>
+                <a href="https://www.facebook.com/SMVECOfficial" target="_blank"><SlSocialFacebook /></a>
               </li>
               <li>
-                <a><RiLinkedinLine /></a>
+                <a href="https://www.youtube.com/@official_smvec" target="_blank"><SlSocialYoutube /></a>
               </li>
               <li>
-                <a><FaXTwitter /></a>
+                <a href="https://x.com/SMVEC2" target="_blank"><FaXTwitter /></a>
               </li>
               <li>
-                <a><FaInstagram /></a>
+                <a href="https://www.instagram.com/smvec_official/?igsh=MXJmNmY5cmVueHJh" target="_blank"><FaInstagram /></a>
               </li>
               <li>
-                <a><FaWhatsapp /></a>
+                <a href="https://api.whatsapp.com/send/?phone=919344916320&text&app_absent=0" target="_blank"><FaWhatsapp /></a>
               </li>
             </ul>
           </div>
           <div className="col-md-2">
             <div className="footer-title ml-35">Quick links</div>
             <ul className="wg-menu ml-35">
-              {menuItems.map((item, index) => (
-                <li key={index}>
-                  <a href="#">{item}</a>
-                </li>
-              ))}
+              <li >
+                <span onClick={() => handlenavigate('/team')}>
+                  Team
+                </span>
+              </li>
+              <li >
+                <span onClick={() => handlenavigate('/timeline')}>Timeline</span>
+              </li>
+              <li >
+                <span onClick={() => handlenavigate('/problem')}>Problem Statements</span>
+              </li>
+              <li >
+                <span onClick={() => handlenavigate('/announcements')}>Announcements</span>
+              </li>
+
             </ul>
           </div>
           <div className="col-md-2">
             <div className="footer-title">Help</div>
             <ul className="wg-menu">
-              {menuItems2.map((item, index) => (
-                <li key={index}>
-                  <a href="#">{item}</a>
-                </li>
-              ))}
+              <li >
+                <span onClick={() => handlenavigate('/contact-us')}>Contact Us</span>
+              </li>
             </ul>
           </div>
 

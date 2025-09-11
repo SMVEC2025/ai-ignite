@@ -1842,6 +1842,12 @@ ul.wg-menu li a {
   color: #fff;
   position: relative;
 }
+ul.wg-menu li span {
+  color: #fff;
+  position: relative;
+  cursor: pointer;
+}
+
 
 ul.wg-menu li a::before {
   position: absolute;
@@ -1859,13 +1865,28 @@ ul.wg-menu li a::before {
   transition: all 0.3s ease-in-out;
 }
 
-ul.wg-menu li a:hover::before {
+ul.wg-menu li span::before {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: auto;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: #01a79d;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+ul.wg-menu li a:hover::before,ul.wg-menu li span:hover::before {
   width: 100%;
   left: 0;
   right: auto;
 }
 
-ul.wg-menu li a:hover {
+ul.wg-menu li a:hover,ul.wg-menu li span:hover {
   color: #01a79d;
 }
 
