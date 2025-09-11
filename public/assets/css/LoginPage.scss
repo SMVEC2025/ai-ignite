@@ -13,17 +13,20 @@ $login-border: #e5e7eb;
   background: $login-bg;
   color: $login-text;
   padding: clamp(16px, 3vw, 32px);
+  background-color: rgb(9, 44, 32);
+  background-size: 200%;
 }
 
 .login-card {
   width: 100%;
   max-width: 460px;
   margin: auto;
-  background: #fff;
+  background: #f3f3f3;
   border: 1px solid $login-border;
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
   padding: clamp(20px, 4vw, 36px);
+  backdrop-filter: blur(12px);
 }
 
 .login-brand {

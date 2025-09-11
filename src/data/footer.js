@@ -1,16 +1,12 @@
 export const menuItems = [
-  "Features",
-  "Integrations",
-  "Pricing",
-  "Changelog",
-  "Roadmap",
+  "Teams",
+  "Timeline",
+  "Problem Statements",
+  "Announcements",
 ];
 
 export const menuItems2 = [
-  "About Us",
-  "Community",
-  "Careers",
-  "Affiliate Program",
+  "Contact Us",
 ];
 export const menuItems3 = [
   "Download Ai",

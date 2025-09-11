@@ -55,7 +55,7 @@ export default function Index() {
             setShowProfile(false);
         }
     }
-        async function handleLogout() {
+    async function handleLogout() {
         try {
             await logout(nav)
 
@@ -108,7 +108,7 @@ export default function Index() {
                     className="nav__hamburger"
                     onClick={() => setOpen(true)}
                 >
-                    
+
                     <Menu />
 
                 </button>
@@ -122,7 +122,7 @@ export default function Index() {
                 <aside className={`nav__drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
                     <div className="nav__drawerTop">
                         <a className="nav__brand" href="/" onClick={close}>
-                         <span className="profile">{session?.user?.email[0]}</span>{session?.user?.email}
+                            <span className="profile">{session?.user?.email[0]}</span>{session?.user?.email}
                         </a>
                         <button className="nav__close" onClick={close}>
                             <X />
@@ -141,7 +141,7 @@ export default function Index() {
                         <li><Link className="nav__link" to="/announcements">Announcements</Link></li>
                         <li><Link className="nav__link" to="/contact-us">Contact Us</Link></li>
                     </ul>
-                     <a className="log-out" onClick={handleLogout}>Log Out</a>
+                    <a className="log-out" onClick={handleLogout}>Log Out</a>
                     <a className="nav__drawerCTA" href="#" onClick={close}>Apply Now</a>
                 </aside>
             </>

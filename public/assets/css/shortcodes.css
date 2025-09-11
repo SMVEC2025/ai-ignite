@@ -640,14 +640,15 @@
   font-weight: 400;
 }
 
-.wg-social.style-1 li a {
-  background-color: rgba(104, 68, 237, 0.2);
-  color: #01a79d;
+.wg-social li a {
+  background-color: rgba(255, 255, 255, 0.164) !important;
+  color: #01a79d !important;
 }
 
-.wg-social.style-1 li a:hover {
-  background-color: #01a79d;
-  color: #fff;
+
+.wg-social li a:hover {
+  background-color: #01a79d !important;
+  color: #fff !important;
 }
 
 .wg-review {
@@ -2137,7 +2138,7 @@ ul.list-item li {
 .road-map-item {
   max-width: 410px;
   border-radius: 15px;
-  background: #f8ffff;
+  background: #c3dbd9b7;
   padding: 40px 50px 30px;
   border: 1px solid #ebebfd;
   position: relative;
@@ -2200,7 +2201,7 @@ ul.list-item li {
 
 .road-map-item .arrow {
   position: absolute;
-  opacity: 0.2;
+  opacity: 0.5;
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;

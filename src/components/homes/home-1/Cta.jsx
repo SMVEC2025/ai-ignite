@@ -24,10 +24,10 @@ export default function Cta() {
                   showcase your innovative solutions
                 </p>
                 <div className="flex gap20">
-                  <a href="#" className="tf-button style-1">
+                  <a href="/apply" className="tf-button style-1">
                     Apply Now <i className="icon-arrow-right2" />
                   </a>
-                  <a href="#" className="tf-button style-1 active">
+                  <a href="/contact-us" className="tf-button style-1 active">
                     contact us <i className="icon-arrow-right2" />
                   </a>
                 </div>

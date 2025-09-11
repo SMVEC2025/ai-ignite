@@ -1,13 +1,13 @@
-import { imageSources } from "../../data/avaters";
-import React from "react";
 import { Link } from "react-router-dom";
-import { socialMediaIcons } from "../../data/socials";
+import { FaWhatsapp, FaInstagram } from "react-icons/fa";
+import { SlSocialFacebook } from "react-icons/sl";
+import { RiLinkedinLine } from "react-icons/ri";
+import { FaXTwitter } from "react-icons/fa6";
 
-import { menuItems, menuItems2, menuItems3 } from "../../data/footer";
+import { menuItems, menuItems2 } from "../../data/footer";
 export default function Footer1() {
   return (
     <footer id="footer">
-      
       <div className="themesflat-container">
         <div className="row">
           <div className="col-12">
@@ -32,15 +32,25 @@ export default function Footer1() {
               blanditiis praesentium voluptatu dele
             </p>
             <ul className="wg-social">
-              {socialMediaIcons.map((icon, index) => (
-                <li key={index}>
-                  <a href={icon.href} className={icon.className} />
-                </li>
-              ))}
+              <li >
+                <a><SlSocialFacebook /></a>
+              </li>
+              <li>
+                <a><RiLinkedinLine /></a>
+              </li>
+              <li>
+                <a><FaXTwitter /></a>
+              </li>
+              <li>
+                <a><FaInstagram /></a>
+              </li>
+              <li>
+                <a><FaWhatsapp /></a>
+              </li>
             </ul>
           </div>
           <div className="col-md-2">
-            <div className="footer-title ml-35">Product</div>
+            <div className="footer-title ml-35">Quick links</div>
             <ul className="wg-menu ml-35">
               {menuItems.map((item, index) => (
                 <li key={index}>
@@ -50,7 +60,7 @@ export default function Footer1() {
             </ul>
           </div>
           <div className="col-md-2">
-            <div className="footer-title">Company</div>
+            <div className="footer-title">Help</div>
             <ul className="wg-menu">
               {menuItems2.map((item, index) => (
                 <li key={index}>
@@ -59,7 +69,7 @@ export default function Footer1() {
               ))}
             </ul>
           </div>
-         
+
           <div className="col-md-3">
             <div className="footer-title ml--3">Newsletter</div>
             <form

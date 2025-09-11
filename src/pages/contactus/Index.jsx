@@ -59,7 +59,7 @@ function Index() {
 
                             <div className="contactus-pill">9:00 AM - 5:00 PM</div>
 
-                            <a className="contactus-btn contactus-btn--outline contactus-btn--block"
+                            <a className="contactus-btn contactus-btn--primary contactus-btn--block"
                                 href="tel:+919876543210">
                                 Contact Now
                             </a>
@@ -171,7 +171,7 @@ function Index() {
                     </article>
                 </section>
             </main>
-            <Faq/>
+            <Faq />
             <Cta />
             <Footer1 />
         </>
