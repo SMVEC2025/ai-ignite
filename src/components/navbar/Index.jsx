@@ -141,8 +141,10 @@ export default function Index() {
                         <li><Link className="nav__link" to="/announcements">Announcements</Link></li>
                         <li><Link className="nav__link" to="/contact-us">Contact Us</Link></li>
                     </ul>
-                    <a className="log-out" onClick={handleLogout}>Log Out</a>
-                    <a className="nav__drawerCTA" href="#" onClick={close}>Apply Now</a>
+                    {session && (
+                        <a className="log-out" onClick={handleLogout}>Log Out</a>
+                    )}
+                    <li><Link className="nav__link" to="/">Home</Link></li>
                 </aside>
             </>
 

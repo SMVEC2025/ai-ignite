@@ -22,10 +22,7 @@ export default function Index() {
             options: { shouldCreateUser: true },
         });
         setLoading(false);
-        if (error) {
-            console.log(error.message)
-            setMsg(error.message);
-        }
+        if (error) setMsg(error.message);
         else {
             setMsg("We sent a 6-digit code to your email.");
             setStep(2);
