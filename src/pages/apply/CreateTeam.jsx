@@ -222,7 +222,10 @@ export default function CreateTeam() {
     });
     setSubmitting(false);
 
-    if (error) setMsg(error.message);
+    if (error) {
+        setMsg(error.message);
+        console.log(error)
+    }
     else nav('/team');
   }
 
