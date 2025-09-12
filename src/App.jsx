@@ -18,6 +18,9 @@ import Resources from './pages/resources/Index'
 import Sessions from './pages/sessions/Index'
 import Mentors from './pages/mentors/Index'
 import ContactUs from './pages/contactus/Index'
+import TermsAndCondition from './pages/terms/Index'
+import PrivacyPolicy from './pages/privacy/Index'
+import Faqs from './pages/faq/Index'
 function App() {
   return (
     <AuthProvider>
@@ -41,6 +44,9 @@ function App() {
             <Route path='/mentors' element={<Mentors/>} />
             <Route path='/mentors' element={<Mentors/>} />
             <Route path='/contact-us' element={<ContactUs/>} />
+            <Route path='/terms-and-conditions' element={<TermsAndCondition/>} />
+            <Route path='/privacy-policy' element={<PrivacyPolicy/>} />
+            <Route path='/faqs' element={<Faqs/>} />
           </Routes>
           </Layout>
         </BrowserRouter>

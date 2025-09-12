@@ -115,20 +115,20 @@ export default function Footer1() {
             <div className="footer-bottom">
               <p className="text mb-0">
                 Copyright @{new Date().getFullYear()},{" "}
-                <a className="tf-color" href="#">
+                <a className="tf-color" href="https://smvec.ac.in" target="_blank">
                   SMVEC
                 </a>{" "}
                 All Rights Reserved
               </p>
               <ul className="">
                 <li>
-                  <a href="#">Terms Of Use </a>
+                  <span onClick={() => handlenavigate('/terms-and-conditions')}>Terms Of Use </span>
                 </li>
                 <li>
-                  <a href="#">Privacy Policy</a>
+                  <span onClick={() => handlenavigate('/privacy-policy')}>Privacy Policy</span>
                 </li>
                 <li>
-                  <a href="#">FAQs</a>
+                  <span onClick={() => handlenavigate('/faqs')}>FAQs</span>
                 </li>
               </ul>
             </div>

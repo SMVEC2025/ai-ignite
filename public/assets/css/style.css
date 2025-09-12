@@ -1900,7 +1900,7 @@ ul.wg-menu li a:hover,ul.wg-menu li span:hover {
 }
 
 .footer-bottom p a:hover {
-  color: #cbed44 !important;
+  color: #44edc8 !important;
 }
 
 .footer-bottom ul {
@@ -1908,15 +1908,16 @@ ul.wg-menu li a:hover,ul.wg-menu li span:hover {
   display: flex;
 }
 
-.footer-bottom ul li a {
+.footer-bottom ul li a,.footer-bottom ul li span {
   color: #fff;
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
 }
 
-.footer-bottom ul li a:hover {
+.footer-bottom ul li a:hover,.footer-bottom ul li span:hover {
   color: #01a79d;
+  cursor: pointer;
 }
 
 #footer .item1 {

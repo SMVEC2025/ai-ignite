@@ -1,0 +1,171 @@
+/* ========= Theme ========= */
+$brand-primary: #01a79d; // teal
+$brand-accent:  #d4b365; // gold
+$text-dark:     #0f172a;
+$text-dim:      #667085;
+$border:        #e6e8ec;
+$bg-page:       #f7faf9;
+$white:         #ffffff;
+
+/* ========= Page Shell ========= */
+.c_legal-wrap {
+  padding: 24px 16px;
+  background: $bg-page;
+  display: grid;
+  place-items: center;
+
+  @media (min-width: 900px) { padding: 40px 24px; }
+}
+
+.c_legal-card {
+  width: min(960px, 100%);
+  border-radius: 16px;
+  padding: 20px;
+
+  @media (min-width: 900px) { padding: 28px; }
+}
+
+.c_legal-header {
+  border-bottom: 2px solid $border;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.c_legal-title {
+  margin: 0 0 6px 0;
+  font-size: 28px;
+  line-height: 1.2;
+  color: $text-dark;
+
+  @media (min-width: 900px) { font-size: 32px; }
+}
+
+.c_legal-subtitle {
+  margin: 0;
+  color: $text-dim;
+}
+
+/* ========= TOC ========= */
+.c_legal-toc {
+  display: block;
+  background: rgba($brand-primary, .06);
+  border: 1px solid rgba($brand-primary, .18);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 16px 0 24px;
+
+  strong { color: $brand-primary; }
+  ul {
+    margin: 8px 0 0;
+    padding: 0 0 0 16px;
+    li { margin: 6px 0; }
+    a {
+      color: $text-dark;
+      text-decoration: none;
+      border-bottom: 1px dashed transparent;
+      &:hover {
+        color: $brand-primary;
+        border-bottom-color: rgba($brand-primary, .35);
+      }
+    }
+  }
+}
+
+/* ========= Sections ========= */
+.c_legal-section {
+  margin: 22px 0;
+  h2 {
+    position: relative;
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    color: $text-dark;
+
+    &::after {
+      content: '';
+      display: block;
+      width: 56px;
+      height: 3px;
+      margin-top: 6px;
+      background: linear-gradient(90deg, $brand-primary, $brand-accent);
+      border-radius: 3px;
+    }
+  }
+  p, li { color: $text-dark; line-height: 1.65; }
+  ul { padding-left: 18px; }
+  a { color: $brand-primary; }
+}
+
+/* ========= FAQs ========= */
+.c_faq-list {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+
+.c_faq-item {
+  border: 1px solid $border;
+  border-radius: 12px;
+  margin: 10px 0;
+  overflow: hidden;
+  background: $white;
+
+  &.is-open {
+    border-color: rgba($brand-primary, .4);
+    box-shadow: 0 6px 16px rgba(1, 167, 157, .08);
+  }
+}
+
+.c_faq-q {
+  width: 100%;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 16px;
+  background: linear-gradient(0deg, rgba($brand-primary,.05), rgba($brand-primary,.05));
+  color: $text-dark;
+  font-weight: 600;
+  border: 0;
+  cursor: pointer;
+
+  &:hover { background: linear-gradient(0deg, rgba($brand-primary,.08), rgba($brand-primary,.08)); }
+
+  .c_faq-icon {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    border-radius: 8px;
+    text-align: center;
+    color: $white;
+    background: linear-gradient(90deg, $brand-primary, $brand-accent);
+  }
+}
+
+.c_faq-a {
+  padding: 12px 16px 16px 16px;
+  color: $text-dark;
+  border-top: 1px dashed $border;
+  background: #fffdf8;
+}
+
+/* ========= Notes ========= */
+.c_legal-note {
+  margin-top: 20px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba($brand-accent, .08);
+  border: 1px solid rgba($brand-accent, .25);
+  a { color: $brand-primary; }
+}
+
+/* ========= Utility ========= */
+.c_tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: $white;
+  background: linear-gradient(90deg, $brand-primary, $brand-accent);
+}
