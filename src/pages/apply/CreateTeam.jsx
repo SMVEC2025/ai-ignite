@@ -6,13 +6,15 @@ import { getMyTeamId } from '../../lib/team';
 import { State, City } from 'country-state-city';
 import { FileUser } from 'lucide-react';
 import Loader from '../../components/Loader/Loader';
+import { useAuth } from '../../context/AuthContext';
 
 const TOTAL_STEPS = 4;
 
 export default function CreateTeam() {
   const nav = useNavigate();
 
-  const [session, setSession] = useState(null);
+  // const [session, setSession] = useState(null);
+  const {session} = useAuth()  //newchange
   const [checking, setChecking] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [msg, setMsg] = useState('');
@@ -285,13 +287,14 @@ export default function CreateTeam() {
   //     </div>
   //   );
   // }
-
+  console.log('hello')
+  console.log(session)
   return (
     <div className="c_team-wrap">
       <div className="c_team-card">
         <header className="c_team-header">
           <h2><FileUser /> AI Ignite 2025 - Application Form</h2>
-          <span className="c_team-user">{session?.user?.email}</span>
+          {session && <div className="c_team-user">{session.user.email}</div>}
         </header>
 
         <Stepper step={step} />

@@ -5,6 +5,7 @@ import { getMyTeamId } from '../../lib/team';
 import { State, City } from 'country-state-city';
 import { UserPlus } from 'lucide-react';
 import Loader from '../../components/Loader/Loader';
+import { useAuth } from '../../context/AuthContext';
 
 const TOTAL_STEPS = 4;
 
@@ -13,8 +14,9 @@ export default function InviteJoin() {
   const { token: tokenParam } = useParams();
   const [search] = useSearchParams();
   const token = tokenParam || search.get('t') || '';
+  const {session} = useAuth()
 
-  const [session, setSession] = useState(null);
+  // const [session, setSession] = useState(null);
   const [checking, setChecking] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [msg, setMsg] = useState('');
@@ -54,9 +56,7 @@ export default function InviteJoin() {
   useEffect(() => {
     (async () => {
       if (!token) { setMsg('Invalid or missing invite link.'); setChecking(false); return; }
-      const { data } = await supabase.auth.getSession();
-      const s = data?.session ?? null;
-      setSession(s);
+       const s = session || (await supabase.auth.getSession()).data.session;
       if (!s) { nav(`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`, { replace: true }); return; }
       const teamId = await getMyTeamId();
       if (teamId) { nav('/team', { replace: true }); return; }
@@ -231,13 +231,13 @@ export default function InviteJoin() {
 
   // ---- UI
   if (checking) return <Loader />;
-  if (!session) {
-    return (
-      <div className="c_team-wrap">
-        <div className="c_team-card"><p>Please log in first.</p></div>
-      </div>
-    );
-  }
+  // if (!session) {
+  //   return (
+  //     <div className="c_team-wrap">
+  //       <div className="c_team-card"><p>Please log in first.</p></div>
+  //     </div>
+  //   );
+  // }
   if (!token) {
     return (
       <div className="c_team-wrap">
