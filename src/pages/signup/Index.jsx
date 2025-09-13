@@ -65,7 +65,7 @@ export default function Index() {
                 {/* Brand / Header */}
                 <div className="login-brand">
                     <div className="login-logo" aria-hidden="true">
-                        <span />
+                        <img src="/logoblack.png" alt="" />
                     </div>
                     <h1 className="login-title">Create account</h1>
                     <p className="login-subtitle">
@@ -196,7 +196,7 @@ export default function Index() {
             </div>
 
             <footer className="login-footer">
-                <p>© {new Date().getFullYear()} SMVEC</p>
+                <p>© {new Date().getFullYear()} AIIGNITE</p>
             </footer>
         </main>
     );

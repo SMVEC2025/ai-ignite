@@ -5,7 +5,7 @@ import Breadcrumbs from '../../components/common/BreadCrumbs';
 import { useTeamData } from './useTeamData';
 
 export default function Team() {
-    const { rows, loading, error } = useTeamData();
+  const { rows, loading, error } = useTeamData();
   const [invite, setInvite] = useState('');
   const [msg, setMsg] = useState('');
 
@@ -13,7 +13,10 @@ export default function Team() {
   const teamSize = useMemo(() => rows?.length ?? 0, [rows]);
 
   if (loading) {
-    return <div>Loading team data...</div>;
+    return <div> <div className="loader">
+      <div className="loader-spinner"></div>
+      <p className="loader-text">Loading...</p>
+    </div></div>;
   }
 
   if (error) {
@@ -30,7 +33,7 @@ export default function Team() {
       setMsg("Team limit reached. Cannot invite more members.");
       return;
     }
-    
+
     // Use a loading state for the invite generation process
     // const { data, error } = await supabase.rpc('generate_invite', { p_team_id: teamId });
     const { data, error } = await supabase.rpc('generate_invite', { p_team_id: teamId });

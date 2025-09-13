@@ -46,7 +46,7 @@ export default function LoginPage() {
                 <div className="login-brand">
                     <div className="login-logo" aria-hidden="true">
                         {/* Minimal logo dot */}
-                        <span />
+                        <img src="/logoblack.png" alt="" />
                     </div>
                     <h1 className="login-title">Welcome back</h1>
                     <p className="login-subtitle">Sign in to continue</p>
@@ -126,7 +126,7 @@ export default function LoginPage() {
             </div>
 
             <footer className="login-footer">
-                <p>© {new Date().getFullYear()} SMVEC</p>
+                <p>© {new Date().getFullYear()} AIIGNITE</p>
             </footer>
         </main>
     );

@@ -35,20 +35,11 @@ $login-border: #e5e7eb;
 }
 
 .login-logo {
-  width: 54px;
-  height: 54px;
+  width: 150px;
   margin: 0 auto 10px;
   position: relative;
 
-  span {
-    position: absolute;
-    inset: 0;
-    border-radius: 14px;
-    background:
-      radial-gradient(60% 60% at 30% 30%, rgba($login-teal, 0.35), transparent 60%),
-      radial-gradient(60% 60% at 70% 70%, rgba($login-gold, 0.35), transparent 60%),
-      linear-gradient(135deg, $login-teal, $login-gold);
-  }
+
 }
 
 .login-title {
@@ -88,9 +79,13 @@ $login-border: #e5e7eb;
   border-radius: 12px;
   padding: 12px 14px;
   font-size: 1rem;
+  color: rgb(0, 0, 0);
   outline: none;
   background: #ecf3f3 !important;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  &::placeholder{
+    color: rgba(123, 122, 128, 0.253) !important;
+  }
 
   &:focus {
     border-color: $login-teal !important;
