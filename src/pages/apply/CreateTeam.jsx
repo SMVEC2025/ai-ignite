@@ -278,13 +278,13 @@ export default function CreateTeam() {
 
   /* --------------------------------- UI ----------------------------------- */
   if (checking) return <Loader />;
-  if (!session) {
-    return (
-      <div className="c_team-wrap">
-        <div className="c_team-card"><p>Please log in first.</p></div>
-      </div>
-    );
-  }
+  // if (!session) {
+  //   return (
+  //     <div className="c_team-wrap">
+  //       <div className="c_team-card"><p>Please log in first.</p></div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="c_team-wrap">
