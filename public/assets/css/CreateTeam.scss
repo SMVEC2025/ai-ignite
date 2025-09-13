@@ -27,6 +27,10 @@ $c_team-danger: #ef4444 !default;
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  @media (max-width: 640px) {
+    margin-top: 60px;
+    
+  }
 }
 
 .c_team-header {
@@ -35,6 +39,10 @@ $c_team-danger: #ef4444 !default;
   justify-content: space-between;
   gap: 12px;
   margin-bottom: 12px;
+  @media (max-width:650px) {
+    flex-direction: column-reverse;
+    align-items: start;
+  }
 
   h2 {
     margin: 0;
@@ -45,6 +53,10 @@ $c_team-danger: #ef4444 !default;
     gap: 5px;
     font-weight: 600;
     color: $c_team-primary;
+    @media (max-width:650px) {
+      line-height: 25px;
+    align-items: start;
+  }
   }
 }
 
@@ -55,6 +67,9 @@ $c_team-danger: #ef4444 !default;
   backdrop-filter: blur(4px);
   padding: 7px 12px;
   border-radius: 999px;
+   @media (max-width:650px) {
+    opacity: 0.6;
+  }
 }
 
 // Stepper
@@ -63,6 +78,10 @@ $c_team-danger: #ef4444 !default;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   margin: 8px 0 16px;
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    display: none;
+  }
 }
 .c_team-step {
   display: grid;
@@ -106,7 +125,13 @@ $c_team-danger: #ef4444 !default;
 
 // Sections
 .c_team-section { margin: 12px 0 6px; }
-.c_team-title { margin: 0 0 10px; font-size: 16px; }
+.c_team-title { margin: 0 0 10px; font-size: 16px; 
+
+
+ @media (max-width: 640px) {
+    font-weight: 500;
+  }
+}
 
 // Grid
 .c_team-grid {

@@ -31,7 +31,10 @@ export default function Index() {
       setHasTeam(Boolean(await getMyTeamId()));
     })();
   }, [session]);
-  if (loading) return <p style={{ padding: 24 }}>Loading…</p>;
+  if (loading) return <div> <div className="loader">
+    <div className="loader-spinner"></div>
+    <p className="loader-text">Loading...</p>
+  </div></div>;
 
   return (
     <>
