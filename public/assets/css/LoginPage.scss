@@ -130,6 +130,9 @@ $login-border: #e5e7eb;
   font-size: 15px;
   cursor: pointer;
   transition: transform 0.03s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  .loading{
+     animation: spin 0.8s linear infinite;
+  }
 
   &:active { transform: translateY(1px); }
   &:focus-visible { outline: 3px solid rgba($login-teal, 0.35); }
@@ -166,6 +169,9 @@ $login-border: #e5e7eb;
   }
 }
 
+@keyframes spin{
+  to { transform: rotate(360deg); }
+}
 .login-divider {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -228,5 +234,11 @@ $login-border: #e5e7eb;
     padding: 40px;
   }
 }
+@media (max-width: 640px) {
+  .login-card {
+    margin-top: 60px;
+  }
+}
+
 
 

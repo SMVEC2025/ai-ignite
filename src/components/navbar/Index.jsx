@@ -84,7 +84,7 @@ export default function Index() {
             <nav className="nav">
                 {/* Brand */}
                 <a className="nav__brand" href="/" aria-label="Homepage">
-                    <img src={scrolled?'/logo.png':'/logowhite.png'} alt="" />
+                    <img src={scrolled ? '/logo.png' : '/logowhite.png'} alt="" />
                 </a>
                 {/* Desktop links */}
                 <ul className="nav__links">
@@ -102,7 +102,7 @@ export default function Index() {
 
                 {/* CTA (desktop) */}
                 <a className="nav__cta" href="/apply">Apply Now</a>
-                
+
 
                 {/* Hamburger */}
                 <button
@@ -122,9 +122,11 @@ export default function Index() {
 
                 <aside className={`nav__drawer ${open ? "is-open" : ""}`} aria-hidden={!open}>
                     <div className="nav__drawerTop">
-                        <a className="nav__brand" href="/" onClick={close}>
-                            <span className="profile">{session?.user?.email[0]}</span>{session?.user?.email}
-                        </a>
+                        {session && (
+                            <a className="nav__brand" href="/" onClick={close}>
+                                <span className="profile">{session?.user?.email[0]}</span>{session?.user?.email}
+                            </a>
+                        )}
                         <button className="nav__close" onClick={close}>
                             <X />
                         </button>

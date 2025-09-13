@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { supabase } from "../../lib/supabaseClient";
 import { Link, useNavigate } from "react-router-dom";
-
+import {LoaderCircle} from 'lucide-react'
 export default function Index() {
     const [step, setStep] = useState(1); // 1=email, 2=otp, 3=set-password
     const [email, setEmail] = useState("");
@@ -98,7 +98,7 @@ export default function Index() {
                         {msg && <div className="login-note">{msg}</div>}
 
                         <button type="submit" className="login-btn login-btn--primary" disabled={loading}>
-                            {loading ? "Sending..." : "Send OTP"}
+                            {loading ? <span className="loading"><LoaderCircle /></span> : "Send OTP"}
                         </button>
                     </form>
                 )}
@@ -107,7 +107,7 @@ export default function Index() {
                     <form className="login-form" onSubmit={verifyOtp} noValidate>
                         <div className="login-field">
                             <label htmlFor="reg-otp" className="login-label">
-                                6-digit code
+                                Enter OTP
                             </label>
                             <input
                                 id="reg-otp"
