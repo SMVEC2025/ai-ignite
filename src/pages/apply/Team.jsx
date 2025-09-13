@@ -2,41 +2,50 @@ import { useEffect, useMemo, useState } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { useNavigate, Navigate } from 'react-router-dom';
 import Breadcrumbs from '../../components/common/BreadCrumbs';
+import { useTeamData } from './useTeamData';
 
 export default function Team() {
-  const [rows, setRows] = useState([]);
-  const [invite, setInvite] = useState(null);
+    const { rows, loading, error } = useTeamData();
+  const [invite, setInvite] = useState('');
   const [msg, setMsg] = useState('');
-  const navigate = useNavigate();
-  async function load() {
-    const { data, error } = await supabase.rpc('get_my_team');
-    if (error) setMsg(error.message);
-    else setRows(data || []);
+
+  const teamId = useMemo(() => rows?.[0]?.team_id ?? null, [rows]);
+  const teamSize = useMemo(() => rows?.length ?? 0, [rows]);
+
+  if (loading) {
+    return <div>Loading team data...</div>;
   }
 
-  useEffect(() => { load(); }, []);
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
-  const teamId = useMemo(() => rows[0]?.team_id ?? null, [rows]);
+  if (teamSize === 0 || !teamId) {
+    return <Navigate to="/apply" replace />;
+  }
 
   async function makeInvite() {
-    if(rows?.length >=4){
+    setMsg(''); // Clear previous messages
+    if (teamSize >= 4) {
       setMsg("Team limit reached. Cannot invite more members.");
       return;
     }
-    setMsg('');
+    
+    // Use a loading state for the invite generation process
+    // const { data, error } = await supabase.rpc('generate_invite', { p_team_id: teamId });
     const { data, error } = await supabase.rpc('generate_invite', { p_team_id: teamId });
-    if (error) setMsg(error.message);
-    else {
-      const token = data?.[0]?.token;
-      const url = `${window.location.origin}/invite/${token}`;
-      setInvite(url);
-    }
-  }
 
-  if (!teamId) {
-    return (
-      <Navigate to="/apply" replace />
-    );
+    if (error) {
+      setMsg(error.message);
+    } else {
+      const token = data?.[0]?.token;
+      if (token) {
+        const url = `${window.location.origin}/invite/${token}`;
+        setInvite(url);
+      } else {
+        setMsg('Failed to generate invite token.');
+      }
+    }
   }
 
   return (
