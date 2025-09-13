@@ -2226,6 +2226,10 @@ ul.wg-menu li a:hover,ul.wg-menu li span:hover {
   justify-content: space-between;
   position: relative;
   overflow: hidden;
+  @media (max-width:650px) {
+  padding: 40px 40px 38px 40px;
+    
+  }
 }
 
 .cta-wrapper .ellipse {
@@ -2271,6 +2275,11 @@ ul.wg-menu li a:hover,ul.wg-menu li span:hover {
   line-height: 13px;
   letter-spacing: -0.54px;
   margin-bottom: 19px;
+  @media (max-width: 480px) {
+    line-height: 25px;
+    font-weight: 400;
+    
+  }
 }
 
 .cta-title h2 {
