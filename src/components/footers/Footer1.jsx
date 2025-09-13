@@ -10,7 +10,7 @@ export default function Footer1() {
     try {
       navigate(path);
     } catch (error) {
-   console.log(error)
+      console.log(error)
     }
   }
   return (
@@ -23,7 +23,7 @@ export default function Footer1() {
                 <Link href={`/`}>
                   <img
                     id="logo_footer"
-                    src="/logo.png"
+                    src="/footerlogo.png"
                     alt="image"
                     width={166}
                     height={40}
@@ -34,9 +34,9 @@ export default function Footer1() {
             </div>
           </div>
           <div className="col-md-3">
-            <p className="text">
-              At vero eoset accusamus et iusto <br /> odio dignissimos ducimus
-              blanditiis praesentium voluptatu dele
+            <p className="footer-logo-bottom">
+              Innovation is the spark of progress,<br/>
+              empowering minds to build the future.
             </p>
             <ul className="wg-social">
               <li >
@@ -118,7 +118,11 @@ export default function Footer1() {
                 <a className="tf-color" href="https://smvec.ac.in" target="_blank">
                   SMVEC
                 </a>{" "}
-                All Rights Reserved
+                All Rights Reserved in partnership with 
+                {" "}
+                 <a className="tf-color" href="https://www.llmatscale.ai" target="_blank">
+                  LLMatScale.ai
+                </a>{" "}
               </p>
               <ul className="">
                 <li>

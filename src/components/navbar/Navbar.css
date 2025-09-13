@@ -30,7 +30,7 @@
     }
 
     .nav__cta {
-        background-image: linear-gradient(45deg, #36614f, #01a79d);
+        background-image: linear-gradient(45deg, #36614f, #01a79d) !important;
         color: white;
     }
 
@@ -56,21 +56,19 @@
     align-items: center;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: calc(80%);
     overflow: hidden;
 
     @media (max-width: 600px) {}
 
     img {
-        height: 40px;
-
-    }
-
-
-    img {
-        height: 60px;
+        height: 62px;
+        overflow: visible;
         width: auto;
+
     }
+
+
+
 
     .profile {
         min-height: 40px !important;
@@ -115,7 +113,11 @@
 .nav__link:hover {
     color: #d4b365;
 }
-
+.nav_cta{
+    position: absolute;
+    bottom: 0;
+    background-color: red !important;
+}
 
 
 /* CTA */
@@ -193,17 +195,18 @@
     padding: 16px;
 
     .log-out {
-        background-color: rgba(95, 91, 91, 0);
-        padding: 5px 20px !important;
+        background-color: rgb(28, 116, 101);
+        padding: 10px 25px !important;
         width: fit-content !important;
         font-size: 14px !important;
-        color: rgb(54, 53, 53) !important;
+        color: rgb(236, 236, 236) !important;
         font-weight: 600;
         border: 1px solid gray;
         margin-left: 15px;
-        background-color: rgba(128, 128, 128, 0.164);
         border-radius: 4px;
         margin-top: 10px;
+        position: absolute;
+        bottom: 30px;
 
     }
 }

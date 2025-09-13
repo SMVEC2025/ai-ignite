@@ -84,7 +84,7 @@ export default function Index() {
             <nav className="nav">
                 {/* Brand */}
                 <a className="nav__brand" href="/" aria-label="Homepage">
-                    <img src="/logo.png" alt="" />
+                    <img src={scrolled?'/logo.png':'/logowhite.png'} alt="" />
                 </a>
                 {/* Desktop links */}
                 <ul className="nav__links">
@@ -102,6 +102,7 @@ export default function Index() {
 
                 {/* CTA (desktop) */}
                 <a className="nav__cta" href="/apply">Apply Now</a>
+                
 
                 {/* Hamburger */}
                 <button
@@ -144,7 +145,6 @@ export default function Index() {
                     {session && (
                         <a className="log-out" onClick={handleLogout}>Log Out</a>
                     )}
-                    <li><Link className="nav__link" to="/">Home</Link></li>
                 </aside>
             </>
 

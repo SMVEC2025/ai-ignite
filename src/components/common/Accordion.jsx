@@ -47,6 +47,7 @@ export default function Accordion({
           <h4
             ref={(el) => (questionRefs.current[index] = el)}
             className="toggle-title active"
+            style={{fontWeight:500}}
           >
             {elm.title}
             <span className="arrowicon"><ArrowDown /></span>

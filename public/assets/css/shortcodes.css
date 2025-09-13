@@ -2871,7 +2871,7 @@ ul.list-item li {
   right: 0px;
   font-size: 18px;
   content: "->";
-  font-weight: 400;
+  font-weight: 300 !important;
   font-family: "icomoon";
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
